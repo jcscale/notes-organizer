@@ -8,5 +8,17 @@ class NoteList(ctk.CTkScrollableFrame):
         self.values = values
 
         for i, value in enumerate(self.values):
-            card = Card(self, title=value, description="This is a note")
-            card.grid(row=i, column=0, padx=10, pady=(10, 0), sticky="ew")
+            print(value)
+            card = Card(self, title=value[1], description=value[2], on_click=lambda v=value: self.on_card_click(v))
+            card.pack(padx=10, pady=10, fill="both", expand=True)
+    
+    def on_card_click(self, value):
+        new_window = ctk.CTkToplevel(self)
+        new_window.title(value[1])
+        new_window.geometry("500x200")
+        
+        title = ctk.CTkLabel(new_window, text=value[1])
+        title.grid(row=0, column=0, padx=20, pady=3, sticky="w")
+
+        description = ctk.CTkLabel(new_window, text=value[2])
+        description.grid(row=1, column=0, padx=20, pady=3, sticky="w")
