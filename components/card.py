@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
 class Card(ctk.CTkFrame):
-    def __init__(self, master, title, description, on_click=None):
+    def __init__(self, master, id, title, description, on_click=None):
         super().__init__(master)
         
         # Create and place the title label inside the inner frame

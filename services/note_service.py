@@ -14,3 +14,22 @@ class NoteService:
         notes = cursor.fetchall()
         conn.close()
         return notes
+
+    def add_note(self, data):
+        conn = self._connect()
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO notes (title, description) VALUES (?, ?)', (data['title'], data['description']))
+        conn.commit()
+        conn.close()
+
+    def update_note(self, data):
+        conn = self._connect()
+        cursor = conn.cursor()
+        cursor.execute()
+    
+    def delete_note(self, id):
+        conn = self._connect()
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM notes WHERE id = ?', (id,))
+        conn.commit()
+        conn.close()
