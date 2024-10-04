@@ -4,8 +4,9 @@ from components.new_window import NewWindow
 from services.note_service import NoteService
 
 class NoteList(ctk.CTkScrollableFrame):
-    def __init__(self, master, title):
+    def __init__(self, master, title, main_frame):
         super().__init__(master, label_text=title)
+        self.main_frame = main_frame  # Store the reference to MainFrame
         self.grid_columnconfigure(0, weight=1)
 
         self.refresh_notes()
@@ -26,7 +27,7 @@ class NoteList(ctk.CTkScrollableFrame):
         edit_button = ctk.CTkButton(new_window, text="Edit", command=lambda: self.edit_note(value[1]))
         edit_button.grid(row=0, column=0)
 
-        delete_button = ctk.CTkButton(new_window, text="Delete", command=lambda: self.on_delete_note(value[0]))
+        delete_button = ctk.CTkButton(new_window, text="Delete", command=lambda: self.on_delete_note(value[0], new_window))
         delete_button.grid(row=0, column=1)
 
         save_button = ctk.CTkButton(new_window, text="Save")
@@ -45,6 +46,8 @@ class NoteList(ctk.CTkScrollableFrame):
     def edit_note(self, title):
         print(title)
     
-    def on_delete_note(self, id):
+    def on_delete_note(self, id, new_window):
         NoteService().delete_note(id)
+        self.main_frame.refresh_notes()
+        new_window.destroy()
 

@@ -20,7 +20,7 @@ class MainFrame(ctk.CTkFrame):
     def refresh_notes(self):
         if hasattr(self, "note_list"):
             self.note_list.destroy()
-        self.note_list = NoteList(self, "Notes")
+        self.note_list = NoteList(self, "Notes", main_frame=self)  # Pass main_frame reference
         self.note_list.refresh_notes()
         self.note_list.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
