@@ -25,7 +25,9 @@ class NoteService:
     def update_note(self, data):
         conn = self._connect()
         cursor = conn.cursor()
-        cursor.execute()
+        cursor.execute('UPDATE notes SET title = ?, description = ? WHERE id =?', (data['title'], data['description'], data['id']))
+        conn.commit()
+        conn.close()
     
     def delete_note(self, id):
         conn = self._connect()
