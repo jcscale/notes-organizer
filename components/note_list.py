@@ -24,31 +24,30 @@ class NoteList(ctk.CTkScrollableFrame):
         new_window = NewWindow(self.master, title=value[1])
         # new_window.reset_lift_and_focus()
 
-        title = ctk.CTkLabel(new_window, text=value[1])
+        title_var = ctk.StringVar(value=value[1])
+        title = ctk.CTkEntry(new_window, textvariable=title_var)
         title.grid(row=0, column=0, padx=20, pady=3, sticky="w")
 
         textbox = ctk.CTkTextbox(new_window, corner_radius=0, height=350, border_spacing=10)
         textbox.grid(row=1, column=0, columnspan=3, padx=20, pady=20, sticky="nsew")
         textbox.insert("0.0", value[2])
 
-        edit_button = ctk.CTkButton(new_window, text="Update", command=lambda: self.on_update_note(value, textbox.get("0.0", "end")))
-        edit_button.grid(row=2, column=0)
+        edit_button = ctk.CTkButton(new_window, text="Update", command=lambda: self.on_update_note(value[0], title.get(), textbox.get("0.0", "end")))
+        edit_button.grid(row=2, column=1, padx=(0, 20), pady=(0, 20))
 
         delete_button = ctk.CTkButton(new_window, text="Delete", command=lambda: self.on_delete_note(value[0], new_window))
-        delete_button.grid(row=2, column=1)
-
-        save_button = ctk.CTkButton(new_window, text="Save")
-        save_button.grid(row=2, column=2)
+        delete_button.grid(row=2, column=2, padx=(0, 20), pady=(0, 20))
         
     def edit_note(self, title):
         print(title)
 
-    def on_update_note(self, data, new_data):
+    def on_update_note(self, id, title, description):
         updated_data = {
-            "id": data[0],
-            "title": data[1],
-            "description": new_data
+            "id": id,
+            "title": title,
+            "description": description
         }
+        print(updated_data)
         NoteService().update_note(updated_data)
         self.main_frame.refresh_notes()
     
